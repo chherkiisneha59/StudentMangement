@@ -4,7 +4,7 @@ A responsive web application for managing academic branches, batches, and studen
 
 ## Key Features
 
-* **Kanban Department Dashboard:** View student profiles grouped by 9 branches (CSE, CSE-BCT, IT, AIDS, AIML, ECE, CIVIL, MECHANICAL, ELECTRICAL) with department-specific boards stacked vertically.
+* **Department Dashboard:** View student profiles grouped by 9 branches (CSE, CSE-BCT, IT, AIDS, AIML, ECE, CIVIL, MECHANICAL, ELECTRICAL) with department-specific boards stacked vertically.
 * **Batch Filtering:** Instantly filter directories using dynamic batch tab navigation (batches from 2017 to 2027).
 * **Automated Roll No & ID Compiler:** Automatic compilation of unique registration identifiers  during profile additions.
 * **Student Results Portal:** Secure pop-up modal to retrieve academic grade sheets, cumulative GPAs, and attendance logs directly from MySQL database records.
