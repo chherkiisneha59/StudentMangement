@@ -2,6 +2,19 @@
 
 A responsive web application for managing academic branches, batches, and student results. This project consists of a Java Spring Boot REST API backend linked with a MySQL database, and a vanilla CSS/Bootstrap frontend dashboard.
 
+## Screenshots
+
+### Student Dashboard
+![Student Dashboard](screenshots/dashboard.png)
+
+### Add Student Record Panel
+![Add Student](screenshots/add_student.png)
+
+### Student Academic Report Card
+![Academic Report Card](screenshots/report_card.png)
+
+---
+
 ## Key Features
 
 * **Department Dashboard:** View student profiles grouped by 9 branches (CSE, CSE-BCT, IT, AIDS, AIML, ECE, CIVIL, MECHANICAL, ELECTRICAL) with department-specific boards stacked vertically.
