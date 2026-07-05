@@ -74,12 +74,18 @@ cd Backend/student-management
 # On Linux/macOS:
 ./mvnw spring-boot:run
 ```
-The server will start at `http://localhost:8080`. During the initial launch, the seeder will drop existing tables, create the schema, and insert 630 mock records.
+The server will start at [http://localhost:8080](http://localhost:8080). During the initial launch, the seeder will drop existing tables, create the schema, and insert 630 mock records.
 
 ### 3. Open the Frontend
 Since the frontend consists of static assets, you can run it directly:
 * Double-click `Frontend/index.html` to open it in your browser, or
 * Run a local server (e.g. Live Server in VS Code, or `python -m http.server 8000`).
+
+## Local Service Links
+
+* **Backend Local Server:** [http://localhost:8080](http://localhost:8080)
+* **REST API Endpoint:** [http://localhost:8080/api/students](http://localhost:8080/api/students)
+* **MySQL Database URL:** `jdbc:mysql://localhost:3306/studentmanagement`
 
 ---
 
