@@ -162,6 +162,8 @@ function selectBatch(batch) {
     renderData();
 }
 
+let isUsingLocalMock = false;
+
 // Retrieve data list and map metrics counters
 async function fetchStudents() {
     setLoading(true);
@@ -171,15 +173,20 @@ async function fetchStudents() {
             throw new Error('Could not establish database connection.');
         }
         allStudents = await response.json();
+        isUsingLocalMock = false;
         
         // Refresh batch navigation & counters
         renderBatchNavbar();
         updateMetrics();
         renderData();
     } catch (error) {
-        console.error('Fetch error:', error);
-        showToast(error.message || 'Error loading records.', 'error');
-        allStudents = [];
+        console.warn('Backend connection failed. Initializing local mock fallback engine.', error);
+        initializeLocalMockData();
+        isUsingLocalMock = true;
+        showToast('Demo Mode (Local Mock Data)', 'warning');
+        
+        renderBatchNavbar();
+        updateMetrics();
         renderData();
     } finally {
         setLoading(false);
@@ -404,6 +411,13 @@ function openEditDrawer(id) {
 // Delete Request handler
 async function deleteStudentRecord(id) {
     if (confirm(`Confirm deletion of Student Record #${id}? This process is permanent.`)) {
+        if (isUsingLocalMock) {
+            allStudents = allStudents.filter(s => s.sId !== id);
+            showToast(`Student #${id} deleted (Demo Mode).`, 'success');
+            updateMetrics();
+            renderData();
+            return;
+        }
         try {
             const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
             if (!response.ok) {
@@ -446,6 +460,41 @@ studentForm.addEventListener('submit', async (e) => {
         batch: batchInput.value.trim()
     };
 
+    if (isUsingLocalMock) {
+        if (isEditMode) {
+            const student = allStudents.find(s => s.sId === activeStudentId);
+            if (student) {
+                student.firstName = payload.firstName;
+                student.lastName = payload.lastName;
+                student.email = payload.email;
+                student.phone = payload.phone;
+                student.branch = payload.branch;
+                student.batch = payload.batch;
+            }
+            showToast(`Student record #${activeStudentId} updated (Demo Mode).`, 'success');
+        } else {
+            if (allStudents.some(s => s.registrationId === payload.registrationId)) {
+                showToast('Registration ID already exists.', 'error');
+                return;
+            }
+            payload.sId = allStudents.length + 1;
+            payload.attendance = 90;
+            payload.gpa = 8.5;
+            payload.results = getCoursesForBranch(payload.branch).map((c, i) => ({
+                courseName: c.name,
+                courseCode: c.code,
+                credits: c.credits,
+                grade: 'A'
+            }));
+            allStudents.push(payload);
+            showToast(`Student record created (Demo Mode).`, 'success');
+        }
+        studentOffcanvas.hide();
+        updateMetrics();
+        renderData();
+        return;
+    }
+
     const targetUrl = isEditMode ? `${API_URL}/${activeStudentId}` : API_URL;
     const requestMethod = isEditMode ? 'PUT' : 'POST';
 
@@ -464,7 +513,7 @@ studentForm.addEventListener('submit', async (e) => {
         showToast(
             isEditMode 
                 ? `Student record #${activeStudentId} updated.` 
-                : `Student record #${payload.sId} created.`, 
+                : `Student record created.`, 
             'success'
         );
         
@@ -696,4 +745,74 @@ function getGradeBadgeClass(grade) {
         case 'B': return 'bg-secondary-subtle text-secondary';
         default: return 'bg-danger-subtle text-danger';
     }
+}
+
+// Local Mock Fallback Generator
+function initializeLocalMockData() {
+    if (allStudents.length > 0) return;
+    
+    const batches = [
+        "2017-2021", "2018-2022", "2019-2023", "2020-2024",
+        "2021-2025", "2022-2026", "2023-2027"
+    ];
+    const branches = [
+        "CSE", "CSEBCT", "IT", "AIDS", "AIML", "ECE", "CIVIL", "MECHANICAL", "ELECTRICAL"
+    ];
+    const firstNames = [
+        "Amit", "Neha", "Rahul", "Sneha", "Aarav", "Priya", "Vikram", "Arjun", "Ananya", "Rohan",
+        "Vijay", "Kavya", "Ishaan", "Siddharth", "Riya", "Aditya", "Kabir", "Divya", "Suresh", "Meera",
+        "Rajesh", "Pooja", "Anil", "Sunita", "Deepak", "Kiran", "Sanjay", "Jyoti", "Alok", "Ritu"
+    ];
+    const lastNames = [
+        "Sharma", "Verma", "Gupta", "Patel", "Singh", "Nair", "Reddy", "Sen", "Joshi", "Das",
+        "Mishra", "Kumar", "Prasad", "Rao", "Jha", "Bose", "Mehta", "Bahl", "Malhotra", "Bhat",
+        "Pillai", "Shetty", "Gowda", "Naidu", "Roy", "Banerjee", "Chatterjee", "Saxena", "Kapoor", "Choudhury"
+    ];
+
+    let mockId = 1;
+    batches.forEach(batch => {
+        const startYear = batch.substring(0, 4);
+        branches.forEach(branch => {
+            const code = getBranchCode(branch);
+            for (let roll = 1; roll <= 10; roll++) {
+                const regId = startYear + code + (100 + roll);
+                
+                const baseHash = Math.abs((batch + branch).hashCode() + roll);
+                const firstName = firstNames[baseHash % firstNames.length];
+                const lastName = lastNames[(baseHash + roll) % lastNames.length];
+                const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${startYear.substring(2)}${100 + roll}@university.edu`;
+                
+                const phoneSeed = Math.abs((regId).hashCode());
+                const phone = (7000000000 + (phoneSeed % 290000000)).toString();
+                
+                const attendance = 80 + (baseHash % 19);
+                const gpa = parseFloat((7.0 + (baseHash % 29) * 0.1).toFixed(2));
+                
+                const coursesList = getCoursesForBranch(branch);
+                const results = coursesList.map((c, idx) => {
+                    const grade = getGradeForScore(80 + ((baseHash + idx) % 19));
+                    return {
+                        courseName: c.name,
+                        courseCode: c.code,
+                        credits: c.credits,
+                        grade: grade
+                    };
+                });
+                
+                allStudents.push({
+                    sId: mockId++,
+                    registrationId: regId,
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    phone: phone,
+                    branch: branch,
+                    batch: batch,
+                    attendance: attendance,
+                    gpa: gpa,
+                    results: results
+                });
+            }
+        });
+    });
 }
