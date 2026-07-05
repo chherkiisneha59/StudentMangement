@@ -2,6 +2,8 @@
 
 A responsive web application for managing academic branches, batches, and student results. This project consists of a Java Spring Boot REST API backend linked with a MySQL database, and a vanilla CSS/Bootstrap frontend dashboard.
 
+**🚀 Live Demo:** [student-mangement-czhwd0g8a-chherkiisneha59s-projects.vercel.app](https://student-mangement-czhwd0g8a-chherkiisneha59s-projects.vercel.app)
+
 ## Screenshots
 
 ### Student Dashboard
@@ -94,8 +96,9 @@ Since the frontend consists of static assets, you can run it directly:
 * Double-click `Frontend/index.html` to open it in your browser, or
 * Run a local server (e.g. Live Server in VS Code, or `python -m http.server 8000`).
 
-## Local Service Links
+## Live & Local Service Links
 
+* **Vercel Live URL:** [https://student-mangement-czhwd0g8a-chherkiisneha59s-projects.vercel.app](https://student-mangement-czhwd0g8a-chherkiisneha59s-projects.vercel.app)
 * **Backend Local Server:** [http://localhost:8080](http://localhost:8080)
 * **REST API Endpoint:** [http://localhost:8080/api/students](http://localhost:8080/api/students)
 * **MySQL Database URL:** `jdbc:mysql://localhost:3306/studentmanagement`
