@@ -14,10 +14,21 @@ A responsive web application for managing academic branches, batches, and studen
 
 ## Tech Stack
 
-* **Frontend:** HTML5, Vanilla CSS3 (Custom Variables, CSS Grids), Bootstrap 5.3 (Modals, Offcanvas, Dropdowns), JavaScript (Fetch API, DOM rendering), Lucide Icons
-* **Backend:** Java 17, Spring Boot 3.x, Spring Data JPA, Hibernate, Jackson
-* **Database:** MySQL 8.x
-* **Build System:** Apache Maven
+### Frontend
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+
+### Backend
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/spring_boot-%236DB33F.svg?style=for-the-badge&logo=spring-boot&logoColor=white)
+![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white)
+
+### Database & DevOps
+![MySQL](https://img.shields.io/badge/mysql-%23184D66.svg?style=for-the-badge&logo=mysql&logoColor=white)
+![Maven](https://img.shields.io/badge/apache_maven-%23C71A36.svg?style=for-the-badge&logo=apache-maven&logoColor=white)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
 ---
 
