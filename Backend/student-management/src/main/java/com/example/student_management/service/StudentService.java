@@ -22,7 +22,7 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Optional<Student> getStudentById(int id) {
+    public Optional<Student> getStudentById(Integer id) {
         return studentRepository.findById(id);
     }
 
@@ -39,6 +39,9 @@ public class StudentService {
     }
 
     public Student createStudent(Student student) {
+        if (studentRepository.existsByRegistrationId(student.getRegistrationId())) {
+            throw new RuntimeException("Registration ID already exists: " + student.getRegistrationId());
+        }
         if (studentRepository.existsByEmail(student.getEmail())) {
             throw new RuntimeException("Email already exists: " + student.getEmail());
         }
@@ -48,7 +51,7 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-    public Student updateStudent(int id, Student updatedStudent) {
+    public Student updateStudent(Integer id, Student updatedStudent) {
         Student existingStudent = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
 
@@ -70,11 +73,12 @@ public class StudentService {
         existingStudent.setEmail(updatedStudent.getEmail());
         existingStudent.setPhone(updatedStudent.getPhone());
         existingStudent.setBranch(updatedStudent.getBranch());
+        existingStudent.setBatch(updatedStudent.getBatch());
 
         return studentRepository.save(existingStudent);
     }
 
-    public void deleteStudent(int id) {
+    public void deleteStudent(Integer id) {
         if (!studentRepository.existsById(id)) {
             throw new RuntimeException("Student not found with id: " + id);
         }
