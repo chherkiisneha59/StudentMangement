@@ -54,7 +54,6 @@ A responsive web application for managing academic branches, batches, and studen
 │   └── student-management/
 │       ├── src/
 │       │   ├── main/java/com/example/student_management/
-│       │   │   ├── bootstrap/      # DataSeeder
 │       │   │   ├── controller/     # REST Endpoints
 │       │   │   ├── entity/         # JPA entities (Student, Result)
 │       │   │   ├── repository/     # Spring Data JPA repositories
@@ -89,7 +88,7 @@ cd Backend/student-management
 # On Linux/macOS:
 ./mvnw spring-boot:run
 ```
-The server will start at [http://localhost:8080](http://localhost:8080). During the initial launch, the seeder will drop existing tables, create the schema, and insert 630 mock records.
+The server will start at [http://localhost:8080](http://localhost:8080).
 
 ### 3. Open the Frontend
 Since the frontend consists of static assets, you can run it directly:
